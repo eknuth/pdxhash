@@ -6,5 +6,15 @@
       <div>Longitude: <textarea name="lon" rows="1" cols="40"></textarea></div>
       <div><input type="submit" value="Submit"></div>
     </form>
+<h2>Access the webservice</h2>
+<pre>
+curl http://pdxhash.appspot.com -d 'lat=45.52&lon=-123.11'
+
+{"pdxhash": "06ywdj1p48"}
+
+curl http://pdxhash.appspot.com -d 'lat=45.52&lon=-123.11&precision=3'
+
+{"pdxhash": "06y"}
+</pre>
   </body>
 </html>

@@ -9,22 +9,26 @@ import Geohash, simplejson
 
 class PDXHash(webapp.RequestHandler):
     def get(self):
+      
 
         template_values = {
-            }
-
+                }
         path = os.path.join(os.path.dirname(__file__), 'index.html')
         self.response.out.write(template.render(path, template_values))
 
     def post(self):
         lat = cgi.escape(self.request.get('lat'))
         lon = cgi.escape(self.request.get('lon'))
+        precision = cgi.escape(self.request.get('precision')) or 20
+
         geohash = Geohash.encode(float(lat), float(lon))
         if geohash.startswith('c2'):
-            pdxhash = {'pdxhash': geohash.replace('c2', '')}
+            geohash = geohash.replace('c2', '')
+            geohash = geohash[0:int(precision)]
+            pdxhash = {'pdxhash': geohash}
         else:
             pdxhash = {'error': 'Not in Portland'}
-        self.response.out.write(simplejson.dumps(pdxhash))
+        self.response.out.write(simplejson.dumps(pdxhash) + "\n")
         
 application = webapp.WSGIApplication(
                                      [('/', PDXHash),],
